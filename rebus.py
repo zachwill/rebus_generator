@@ -43,8 +43,8 @@ class Rebus(object):
     Take an image name, additional word, and subtraction letters and return the
     correct rebus word.
 
-    >>> Rebus(':dove', 'le', 'de')
-    'love'
+    >>> Rebus(':dove', 'sl', 'd')
+    'solve'
     """
 
     def __init__(self, image, add='', subtract=''):
