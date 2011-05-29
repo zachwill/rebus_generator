@@ -22,7 +22,7 @@ CORPUS = read_word_list('files/word_list.txt')
 
 def roundrobin(*iterables):
     """
-    From itertools' recipes: http://bit.ly/iter_recipes
+    From itertools' recipes:  http://bit.ly/iter_recipes
 
     >>> ''.join(roundrobin('ABC', 'D', 'EF'))
     'ADEBFC'
@@ -69,7 +69,7 @@ class Rebus(object):
         return self.value
 
     def startswith(self, letter):
-        """Mimic str's startswith method."""
+        """Mimic string startswith method."""
         if letter == ':':
             return True
 
@@ -77,7 +77,8 @@ class Rebus(object):
         """Replace letters in a word."""
         if isinstance(word, str):
             word = re.sub(':', '', word)
-        else:  # It's a Rebus object.
+        else:
+            # It's a Rebus object.
             word = word.value
         if not replace:
             return word
@@ -89,9 +90,9 @@ class Rebus(object):
 
     def logic(self, word, add):
         """
-        Rebus logic. Since it's not straightforward as to how the final word,
-        this is still being tweaked -- along with the `word_permutations`
-        method.
+        Rebus logic. Since it's not straightforward as to how the final
+        word is formed, this is still being tweaked -- along with the
+        `word_permutations` method.
         """
         corpus = CORPUS
         possible = [''.join(roundrobin(add, word)),
