@@ -50,9 +50,11 @@ class Rebus(object):
     def __init__(self, image, add='', subtract=''):
         names = IMAGE_NAMES  # Local variable is faster.
         if image in names:
-            # TODO: Fix hack around multiple meanings.
-            # Such as 'dove_symbol.png' meaning both 'dove' and 'peace'.
-            image = names[image].split()[0]
+            image = names[image]
+            image_split = image.split()
+            if len(image_split) > 1:
+                letters = set([letter for letter in subtract])
+                image = self._match_image(image_split, letters)
         elif not add:
             self.score = Score(subtract)
             self.value = self.replace_letters(image, subtract)
@@ -61,6 +63,21 @@ class Rebus(object):
         add = self.replace_letters(add)  # Get rid of any colons.
         word = self.replace_letters(image, subtract)
         self.value = self.logic(word, add)
+
+    def _match_image(self, names, letters):
+        """
+        Some images have multiple meanings, such as 'dove_symbol.png'
+        meaning both 'dove' and 'peace'. This method checks the subtraction
+        letters against the image meanings to return the right one.
+        """
+        for index, image_name in enumerate(names):
+            for letter in letters:
+                if image_name and letter not in image_name:
+                    names[index] = None
+        # Return the first true image name.
+        for image_name in names:
+            if image_name:
+                return image_name
 
     def __iter__(self):
         return iter(self.value)
@@ -83,8 +100,8 @@ class Rebus(object):
         if not replace:
             return word
         for letter in replace:
-            # The 'book' example threw me off:
-            # Rebus(':book', 'wr', 'bo') => 'book'
+            # The 'book' example threw me off, so now using a regex for loop:
+            # Rebus(':book', 'wr', 'bo') => 'work'
             word = re.sub(letter, '', word, 1)
         return word
 
