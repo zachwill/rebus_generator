@@ -65,34 +65,43 @@ class TestWordPermutations(unittest.TestCase):
         self.r = Rebus('')
 
     def test_permutations_for_dove(self):
-        output = self.r.word_permuations('do', 've')
+        output = self.r.word_permutations('do', 've')
         assert 'dove' in output
 
     def test_permutations_for_work(self):
-        output = self.r.word_permuations('rk', 'wo')
+        output = self.r.word_permutations('rk', 'wo')
         assert 'work' in output
 
     def test_permutations_for_solved(self):
-        output = self.r.word_permuations('lve', 'so')
+        output = self.r.word_permutations('lve', 'so')
         assert 'solve' in output
 
     def test_permutations_for_this(self):
-        output = self.r.word_permuations('hs', 'ti')
+        output = self.r.word_permutations('hs', 'ti')
         assert 'this' in output
 
     def test_permutations_for_here(self):
-        output = self.r.word_permuations('er', 'he')
+        output = self.r.word_permutations('er', 'he')
         assert 'here' in output
 
 
 class TestSentenceClass(unittest.TestCase):
 
-    def test_sentence_with_multiple_rebus(self):
+    def test_sentence_with_higher_scoring_rebus(self):
         output = Sentence(Rebus(':dove', 'sl', 'd'),
                           Rebus(':tie', 'hs', 'e'),
                           Rebus(':book', 'wr', 'bo'),
                           Rebus(':bee', 'hr', 'b'))
         self.assertEqual(str(output), "solve this work here")
+        self.assertEqual(output.score, 57)
+
+    def test_sentence_with_lowering_scoring_rebus(self):
+        output = Sentence(Rebus(':love', 'so', 'o'),
+                          Rebus(':house', 'ti', 'oue'),
+                          Rebus(':rake', 'wo', 'ae'),
+                          Rebus(':ear', 'he', 'a'))
+        self.assertEqual(str(output), "solve this work here")
+        self.assertEqual(output.score, 31)
 
 
 class TestScoreClass(unittest.TestCase):
