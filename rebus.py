@@ -119,13 +119,16 @@ class Rebus(object):
         for answer in possible:
             if answer in corpus:
                 return answer
+        # No answer in possible -- must use word_permutations method.
+        possible = self.word_permutations(word, add)
+        return possible.pop()
 
-    def word_permuations(self, word, add):
+    def word_permutations(self, word, add):
         """Permutations for all possible words when combining two."""
         corpus = CORPUS
         letters = ''.join([word, add])
         words = (''.join(p) for p in permutations(letters, len(letters)))
-        possible = [w for w in words if w in corpus]
+        possible = set([w for w in words if w in corpus])
         return possible
 
 
@@ -133,7 +136,10 @@ class Sentence(object):
     """Create a sentence from a group of Rebus objects."""
 
     def __init__(self, *iterables):
+        self.score = 0
         self.iterables = iterables
+        for rebus in iterables:
+            self.score += rebus.score
 
     def __repr__(self):
         return ' '.join(rebus.value for rebus in self.iterables)
