@@ -32,7 +32,7 @@ class TestRebusClass(unittest.TestCase):
 
     def test_dove_image_rebus_to_solve(self):
         output = Rebus('dove_symbol.png', 'sl', 'd')
-        print output
+        self.assertEqual(str(output), 'solve')
 
     def test_rebus_of_rebus_to_solve(self):
         output = Rebus(':dove', Rebus(':castle', subtract=':cat'),
