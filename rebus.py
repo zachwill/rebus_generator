@@ -70,9 +70,11 @@ class Rebus(object):
         meaning both 'dove' and 'peace'. This method checks the subtraction
         letters against the image meanings to return the right one.
         """
-        for index, image_name in enumerate(names):
+        # O(1) lookup for letters by using a set.
+        set_names = (set(name) for name in names)
+        for index, image_name in enumerate(set_names):
             for letter in letters:
-                if image_name and letter not in image_name:
+                if letter not in image_name:
                     names[index] = None
         # Return the first true image name.
         for image_name in names:
