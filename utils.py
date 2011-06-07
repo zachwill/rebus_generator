@@ -24,11 +24,3 @@ def read_word_list(filename):
     with open(filename) as f:
         words = frozenset(word.strip() for word in f)
     return words
-
-
-def main():
-    print read_word_list('word_list.txt')
-
-
-if __name__ == '__main__':
-    main()
